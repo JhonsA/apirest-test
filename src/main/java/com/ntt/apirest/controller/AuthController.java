@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ntt.apirest.domain.classes.AuthResponse;
 import com.ntt.apirest.domain.classes.LogginRequest;
-import com.ntt.apirest.domain.classes.User;
 import com.ntt.apirest.domain.dto.UserRequestDto;
 import com.ntt.apirest.domain.dto.UserResponseDto;
 import com.ntt.apirest.domain.service.AuthService;
