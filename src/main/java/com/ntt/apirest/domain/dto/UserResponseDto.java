@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserResponseDto {
     private Long id;
     private LocalDateTime creado;
     private LocalDateTime modificado;

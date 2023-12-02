@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ntt.apirest.domain.dto.UserDto;
+import com.ntt.apirest.domain.dto.UserRequestDto;
+import com.ntt.apirest.domain.dto.UserResponseDto;
 import com.ntt.apirest.domain.service.UserService;
 import com.ntt.apirest.models.User;
 
@@ -54,7 +55,7 @@ public class UserController {
      */
     @Operation(description = "Create a new User", summary = "USER CONTROLLER")
     @PostMapping("/")
-    public UserDto createUser(@RequestBody User userRequest) {
+    public UserResponseDto createUser(@RequestBody UserRequestDto userRequest) {
         return userService.createUser(userRequest);
     }
 

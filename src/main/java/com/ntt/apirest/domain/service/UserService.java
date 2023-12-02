@@ -1,12 +1,14 @@
 package com.ntt.apirest.domain.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ntt.apirest.domain.dto.UserDto;
+import com.ntt.apirest.domain.dto.UserRequestDto;
+import com.ntt.apirest.domain.dto.UserResponseDto;
 import com.ntt.apirest.models.User;
 import com.ntt.apirest.persistence.repository.UserRepository;
 import com.ntt.apirest.util.mappers.UserMapper;
@@ -16,6 +18,8 @@ public class UserService {
 
     @Autowired
 	private UserRepository userRepository;
+
+    private final LocalDateTime now = LocalDateTime.now();
 
     public List<User> getAllUsers() {
         return userRepository.getUsers();
@@ -30,10 +34,16 @@ public class UserService {
         }
     }
 
-    public UserDto createUser(User user) {
+    public UserResponseDto createUser(UserRequestDto userRequestDto) {
         try {
+            User user = UserMapper.INSTANCE.userRequestDtoToUser(userRequestDto);
+            user.setCreado(now);
+            user.setModificado(now);
+            user.setUltimoLogin(now);
+            user.setActivo(true);
+
             User createUser = userRepository.saveUser(user);
-            return UserMapper.INSTANCE.userToUserDto(userRepository.saveUser(createUser));
+            return UserMapper.INSTANCE.userToUserResponseDto(userRepository.saveUser(createUser));
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el usuario", e);
         }

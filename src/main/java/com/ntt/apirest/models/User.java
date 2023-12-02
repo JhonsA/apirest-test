@@ -29,7 +29,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "phone_id")
-    private Phone telefono;
+    private Phone telefonos;
 
     private LocalDateTime creado;
     private LocalDateTime modificado;
