@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ntt.apirest.domain.classes.AuthResponse;
 import com.ntt.apirest.domain.classes.LogginRequest;
 import com.ntt.apirest.domain.classes.User;
+import com.ntt.apirest.domain.dto.UserRequestDto;
+import com.ntt.apirest.domain.dto.UserResponseDto;
 import com.ntt.apirest.domain.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +27,7 @@ public class AuthController {
     
     /**
      * Method: POST.
-     * Description: Login.
+     * Description: Login user.
      */
     @Operation(description = "Login", summary = "AUTH CONTROLLER")
     @PostMapping("/login")
@@ -35,11 +37,11 @@ public class AuthController {
 
     /**
      * Method: POST.
-     * Description: Register.
+     * Description: Register user.
      */
     @Operation(description = "Register", summary = "AUTH CONTROLLER")
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody User userRequest) {
+    public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequest) {
         return ResponseEntity.ok(authService.register(userRequest));
     }
 
