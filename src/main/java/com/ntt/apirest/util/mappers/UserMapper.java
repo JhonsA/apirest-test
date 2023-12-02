@@ -19,13 +19,11 @@ public interface UserMapper {
     @Mapping(target = "token", ignore = true)
     @Mapping(source = "activo", target = "activo")
     UserResponseDto userToUserResponseDto(User user);
-
+    
     @Mapping(source = "nombre", target = "nombre")
     @Mapping(source = "correo", target = "correo")
     @Mapping(source = "password", target = "password")
-    @Mapping(source = "telefonos.numero", target = "telefonos.numero")
-    @Mapping(source = "telefonos.codigoCiudad", target = "telefonos.codigoCiudad")
-    @Mapping(source = "telefonos.codigoPais", target = "telefonos.codigoPais")
+    @Mapping(target = "telefonos", ignore = true)
     User userRequestDtoToUser(UserRequestDto userRequest);
 
 }
