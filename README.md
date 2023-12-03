@@ -324,8 +324,27 @@ Responses:
 
 ## Diagrama
 ```mermaid
-graph TD
-  A[UserController] -->|HTTP Request| B((UserService))
-  B -->|Database Interaction| C(UserRepository)
-  C -->|Data Access| D(UserDAO)
+    sequenceDiagram
+    autonumber
+
+    participant client as :Client
+    participant jwtAuthFilter as :JWT Authentication Filter
+    participant jwtService as :JWT Service
+    participant securityContext as :Security Context
+    participant controller as :Controller
+    participant service as :Service
+    participant h2db as :H2 Database
+
+    client->>+jwtAuthFilter: HTTP Request (GET|POST|PUT|PATCH|DELETE)
+    jwtAuthFilter->>+jwtService: Send token to check
+    jwtService-->>-jwtAuthFilter: Return response
+    jwtAuthFilter->>+securityContext: Set up Security Context
+    securityContext-->>-jwtAuthFilter: Security Context is set
+    jwtAuthFilter->>+controller: Make request
+    controller->>+service: Request service method
+    service ->>+h2db: Make operation
+    h2db -->>-service: Return response
+    service-->>-controller: Return response
+    controller-->>-jwtAuthFilter: Return response
+    jwtAuthFilter-->>-client: Return data with HTTP Status Code (200, 401, 400)
 ```
