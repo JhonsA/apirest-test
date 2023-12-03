@@ -1,16 +1,9 @@
 package com.ntt.apirest.service;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -20,15 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.ntt.apirest.domain.dto.PhoneRequestDto;
-import com.ntt.apirest.domain.dto.UserRequestDto;
-import com.ntt.apirest.domain.dto.UserResponseDto;
-import com.ntt.apirest.domain.errors.RegistrationException;
-import com.ntt.apirest.domain.service.JwtService;
 import com.ntt.apirest.domain.service.UserService;
 import com.ntt.apirest.enums.Role;
 import com.ntt.apirest.models.Phone;
@@ -44,9 +31,6 @@ public class UserServiceTest {
 
     @InjectMocks
     private UserService userService;
-
-    @Autowired
-    private JwtService jwtService;
 
     private User user;
     private Phone phone;
