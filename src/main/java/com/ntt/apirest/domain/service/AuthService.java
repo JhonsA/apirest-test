@@ -2,9 +2,11 @@ package com.ntt.apirest.domain.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,7 @@ import com.ntt.apirest.domain.classes.AuthResponse;
 import com.ntt.apirest.domain.classes.LogginRequest;
 import com.ntt.apirest.domain.dto.UserRequestDto;
 import com.ntt.apirest.domain.dto.UserResponseDto;
+import com.ntt.apirest.domain.errors.RegistrationException;
 import com.ntt.apirest.enums.Role;
 import com.ntt.apirest.models.Phone;
 import com.ntt.apirest.models.User;
@@ -36,6 +39,9 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
+    @Value("${registration.password-regex}")
+    private String passwordRegex;
+
     public AuthResponse login(LogginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getPassword()));
         User user = userRepository.getUserByCorreo(loginRequest.getCorreo()).orElseThrow();
@@ -43,8 +49,14 @@ public class AuthService {
         return AuthResponse.builder().token(token).build();
     }
 
-    public UserResponseDto register(UserRequestDto userRequestDto) {
+    public UserResponseDto register(UserRequestDto userRequestDto) throws RegistrationException {
         try {
+            Optional<User> existingUser = userRepository.getUserByCorreo(userRequestDto.getCorreo());
+            if (existingUser.isPresent()) throw new RegistrationException("El correo ya ha sido registrado");
+            if (!userRequestDto.getCorreo().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.cl$")) throw new RegistrationException("Formato de corre no válido");
+            if (!userRequestDto.getPassword().matches(passwordRegex)) throw new RegistrationException("Formato de contraseña no válido");
+            // if (!userRequestDto.getCorreo().matches("^[a-zA-Z0-9._-]+@dominio\\.cl$")) throw new RegistrationException("Formato de corre no valido");
+
             User user = UserMapper.INSTANCE.userRequestDtoToUser(userRequestDto);
             user.setCreado(now);
             user.setModificado(now);
@@ -71,6 +83,9 @@ public class AuthService {
             userResponseDto.setToken(jwtService.getToken(createUser));
             
             return userResponseDto;
+
+        } catch (RegistrationException e) {
+            throw e;
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el usuario", e);
         }

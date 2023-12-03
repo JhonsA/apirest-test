@@ -11,6 +11,7 @@ import com.ntt.apirest.domain.classes.AuthResponse;
 import com.ntt.apirest.domain.classes.LogginRequest;
 import com.ntt.apirest.domain.dto.UserRequestDto;
 import com.ntt.apirest.domain.dto.UserResponseDto;
+import com.ntt.apirest.domain.errors.RegistrationException;
 import com.ntt.apirest.domain.service.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,10 +38,11 @@ public class AuthController {
     /**
      * Method: POST.
      * Description: Register user.
+     * @throws RegistrationException
      */
     @Operation(description = "Register", summary = "AUTH CONTROLLER")
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequest) {
+    public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto userRequest) throws RegistrationException {
         return ResponseEntity.ok(authService.register(userRequest));
     }
 
