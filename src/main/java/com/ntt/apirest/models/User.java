@@ -53,6 +53,7 @@ public class User implements UserDetails {
     private LocalDateTime modificado;
     private LocalDateTime ultimoLogin;
     private boolean activo = true;
+    private String token;
 
     @Enumerated(EnumType.STRING)
     private Role role;

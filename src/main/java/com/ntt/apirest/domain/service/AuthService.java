@@ -43,10 +43,18 @@ public class AuthService {
     private String passwordRegex;
 
     public AuthResponse login(LogginRequest loginRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getPassword()));
-        User user = userRepository.getUserByCorreo(loginRequest.getCorreo()).orElseThrow();
-        String token = jwtService.getToken(user);
-        return AuthResponse.builder().token(token).build();
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getCorreo(), loginRequest.getPassword()));
+            User user = userRepository.getUserByCorreo(loginRequest.getCorreo()).orElseThrow();
+            String token = jwtService.getToken(user);
+
+            user.setToken(token);
+            userRepository.saveUser(user);
+
+            return AuthResponse.builder().token(token).build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al inciar sesión", e);
+        }
     }
 
     public UserResponseDto register(UserRequestDto userRequestDto) throws RegistrationException {
@@ -78,9 +86,13 @@ public class AuthService {
             .collect(Collectors.toList());
             user.setTelefonos(phones);
 
+            String token = jwtService.getToken(user);
+            user.setToken(token);
+
             User createUser = userRepository.saveUser(user);
+
             UserResponseDto userResponseDto = UserMapper.INSTANCE.userToUserResponseDto(createUser);
-            userResponseDto.setToken(jwtService.getToken(createUser));
+            userResponseDto.setToken(token);
             
             return userResponseDto;
 
