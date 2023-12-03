@@ -34,11 +34,6 @@ http://localhost:8090/doc/swagger-ui/index.html
 
 ### http://localhost:8090/auth/register | POST
 
-Authorization
-```
-
-```
-
 body
 ```
 {
@@ -79,10 +74,12 @@ body
 }
 ```
 
-401
+reponse:
+
+200
 ```
 {
-    "mensaje": "Unauthorized"
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqaG9ucy5hbGJvcm5vei5hcmF5YUBnbWFpbC5jbCIsImlhdCI6MTcwMTYzMTQzNywiZXhwIjoxNzAxNjMyODc3fQ.xoELAiuOfKMrh5HMzsbyriJGP9FpvnQ37j0kaMojEOY"
 }
 ```
 
