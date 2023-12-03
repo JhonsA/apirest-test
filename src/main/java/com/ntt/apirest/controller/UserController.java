@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ntt.apirest.domain.classes.UserUpdateRequest;
 import com.ntt.apirest.domain.dto.UserRequestDto;
 import com.ntt.apirest.domain.dto.UserResponseDto;
+import com.ntt.apirest.domain.errors.RegistrationException;
+import com.ntt.apirest.domain.errors.UserNotFoundException;
 import com.ntt.apirest.domain.service.UserService;
 import com.ntt.apirest.models.User;
 
@@ -52,20 +55,22 @@ public class UserController {
 	/**
      * Method: POST.
      * Description: Create a new User.
+	 * @throws RegistrationException
      */
     @Operation(description = "Create a new User", summary = "USER CONTROLLER")
     @PostMapping("/")
-    public UserResponseDto createUser(@RequestBody UserRequestDto userRequest) {
+    public UserResponseDto createUser(@RequestBody UserRequestDto userRequest) throws RegistrationException {
         return userService.createUser(userRequest);
     }
 
 	/**
      * Method: PUT.
      * Description: Update a User.
+	 * @throws UserNotFoundException
      */
     @Operation(description = "Update a User", summary = "USER CONTROLLER")
     @PutMapping("/{userId}")
-    public User updateUser(@PathVariable("userId") Long userId, @RequestBody User userRequest) {
+    public User updateUser(@PathVariable("userId") Long userId, @RequestBody UserUpdateRequest userRequest) throws UserNotFoundException {
         return userService.updateUser(userId, userRequest);
     }
 

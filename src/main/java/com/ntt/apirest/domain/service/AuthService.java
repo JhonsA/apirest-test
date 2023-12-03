@@ -49,6 +49,7 @@ public class AuthService {
             String token = jwtService.getToken(user);
 
             user.setToken(token);
+            user.setUltimoLogin(LocalDateTime.now());
             userRepository.saveUser(user);
 
             return AuthResponse.builder().token(token).build();
