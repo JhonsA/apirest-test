@@ -321,3 +321,11 @@ Responses:
     "mensaje": "msg"
 }
 ```
+
+## Diagrama
+```mermaid
+graph TD
+  A[UserController] -->|HTTP Request| B((UserService))
+  B -->|Database Interaction| C(UserRepository)
+  C -->|Data Access| D(UserDAO)
+```
