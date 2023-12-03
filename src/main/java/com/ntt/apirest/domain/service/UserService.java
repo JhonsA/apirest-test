@@ -61,7 +61,7 @@ public class UserService {
         try {
             Optional<User> existingUser = userRepository.getUserByCorreo(userRequestDto.getCorreo());
             if (existingUser.isPresent()) throw new RegistrationException("El correo ya ha sido registrado");
-            if (!userRequestDto.getCorreo().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.cl$")) throw new RegistrationException("Formato de corre no válido");
+            if (!userRequestDto.getCorreo().matches("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.cl$")) throw new RegistrationException("Formato de corre no válido");
             if (!userRequestDto.getPassword().matches(passwordRegex)) throw new RegistrationException("Formato de contraseña no válido");
             // if (!userRequestDto.getCorreo().matches("^[a-zA-Z0-9._-]+@dominio\\.cl$")) throw new RegistrationException("Formato de corre no valido");
 
