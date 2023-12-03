@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +25,14 @@ public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String numero;
+
+    @Column(nullable = false)
     private String codigoCiudad;
+
+    @Column(nullable = false)
     private String codigoPais;
 
     @ManyToOne
@@ -35,5 +42,5 @@ public class Phone {
 
     private LocalDateTime creado;
     private LocalDateTime modificado;
-    private boolean activo;
+    private boolean activo = true;
 }

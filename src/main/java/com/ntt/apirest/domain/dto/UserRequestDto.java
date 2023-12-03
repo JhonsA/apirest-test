@@ -1,5 +1,6 @@
 package com.ntt.apirest.domain.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -13,5 +14,5 @@ public class UserRequestDto {
     private String nombre;
     private String correo;
     private String password;
-    private List<PhoneRequestDto> telefonos;
+    private List<PhoneRequestDto> telefonos = new ArrayList<>();
 }

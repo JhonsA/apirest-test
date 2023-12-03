@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ntt.apirest.domain.dto.UserRequestDto;
 import com.ntt.apirest.domain.dto.UserResponseDto;
+import com.ntt.apirest.enums.Role;
 import com.ntt.apirest.models.Phone;
 import com.ntt.apirest.models.User;
 import com.ntt.apirest.persistence.repository.UserRepository;
@@ -47,7 +48,7 @@ public class UserService {
             user.setCreado(now);
             user.setModificado(now);
             user.setUltimoLogin(now);
-            user.setActivo(true);
+            user.setRole(Role.USER);
 
             List<Phone> phones = userRequestDto.getTelefonos().stream()
                 .map(phoneRequestDto -> {
@@ -57,7 +58,6 @@ public class UserService {
                     phone.setCodigoPais(phoneRequestDto.getCodigoPais());
                     phone.setCreado(now);
                     phone.setModificado(now);
-                    phone.setActivo(true);
                     phone.setUser(user);
                     return phone;
                 })
@@ -65,7 +65,7 @@ public class UserService {
             user.setTelefonos(phones);
 
             User createUser = userRepository.saveUser(user);
-            return UserMapper.INSTANCE.userToUserResponseDto(userRepository.saveUser(createUser));
+            return UserMapper.INSTANCE.userToUserResponseDto(createUser);
         } catch (Exception e) {
             throw new RuntimeException("Error al crear el usuario", e);
         }

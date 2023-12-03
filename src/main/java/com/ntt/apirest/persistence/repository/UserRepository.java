@@ -30,5 +30,9 @@ public class UserRepository {
     public void deleteUserById(Long userId) {
         userDao.deleteById(userId);
     }
+
+    public Optional<User> getUserByCorreo(String correo) {
+        return userDao.findByCorreo(correo);
+    }
     
 }
