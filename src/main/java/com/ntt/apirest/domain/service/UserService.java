@@ -133,4 +133,23 @@ public class UserService {
         }
     }
 
+    public User patchUser(Long userId, UserUpdateRequest partialUser) throws UserNotFoundException {
+        try {
+            Optional<User> existingUser = userRepository.getUserById(userId);
+            if (existingUser.isEmpty()) throw new UserNotFoundException("El usuario ID: " + userId + " no se encuentra registrado");
+
+            User user = existingUser.get();
+            if (partialUser.getNombre() != null) user.setNombre(partialUser.getNombre());
+            if (partialUser.getCorreo() != null) user.setCorreo(partialUser.getCorreo());
+            if (partialUser.getPassword() != null) user.setPassword(passwordEncoder.encode(partialUser.getPassword()));
+            user.setModificado(LocalDateTime.now());
+
+            return userRepository.saveUser(user);
+        } catch (UserNotFoundException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar el usuario", e);
+        }
+    }
+
 }

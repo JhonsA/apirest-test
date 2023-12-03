@@ -77,11 +77,12 @@ public class UserController {
     /**
      * Method: PATCH.
      * Description: Update a User partially.
+     * @throws UserNotFoundException
 	*/
     @Operation(description = "Update a User partially", summary = "USER CONTROLLER")
     @PatchMapping("/{userId}")
-    public Boolean patchUser(@PathVariable("userId") int userId, @RequestBody Object partialUser) {
-        return true;
+    public User patchUser(@PathVariable("userId") Long userId, @RequestBody UserUpdateRequest partialUser) throws UserNotFoundException {
+        return userService.patchUser(userId, partialUser);
     }
 
     /**
